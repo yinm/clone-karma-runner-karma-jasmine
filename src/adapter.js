@@ -161,7 +161,7 @@ function KarmaReporter (tc, jasmineEnv) {
   // Save link on native Date object
   // because user can mock it
   const _Date = Date
-  const startTimeCurrentSpec = new _Date().getTime()
+  let startTimeCurrentSpec = new _Date().getTime()
 
   function handleGlobalErrors (result) {
     if (result.failedExpectations && result.failedExpectations.length) {
@@ -203,5 +203,9 @@ function KarmaReporter (tc, jasmineEnv) {
       order: result.order,
       coverage: window.__coverage__
     })
+  }
+
+  this.specStarted = function () {
+    startTimeCurrentSpec = new _Date().getTime()
   }
 }
