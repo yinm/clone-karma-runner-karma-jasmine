@@ -244,3 +244,32 @@ function KarmaReporter (tc, jasmineEnv) {
     delete specResult.startTime
   }
 }
+
+/**
+ * Extract grep option from karma config
+ * @param {[Array|string]} clientArguments The karma client arguments
+ * @returns {string} The value of grep option by default empty string
+ */
+const getGrepOption = (clientArguments) => {
+  const grepRegex = /^--grep=(.*)$/
+
+  if (Object.prototype.toString.call(clientArguments) === '[object Array]') {
+    const indexOfGrep = indexOf(clientArguments, '--grep')
+
+    if (indexOfGrep !== -1) {
+      return clientArguments[indexOfGrep + 1]
+    }
+
+    return map(filter(clientArguments, (arg) => {
+      return grepRegex.test(arg)
+    }), (arg) => {
+      return arg.replace(grepRegex, '$1')
+    })[0] || ''
+
+  } else if (typeof clientArguments === 'string') {
+    const match = /--grep=([^=]+)/.exec(clientArguments)
+
+    return match ? match[1] : ''
+  }
+}
+
