@@ -46,3 +46,69 @@ function getRelevantStackFrom (stack) {
 
   return relevantStack
 }
+
+/**
+ * Custom formatter for a failed step.
+ *
+ * Different browsers report stack trace in different ways. This function
+ * attempts to provide a concise, relevant error message by removing the
+ * unnecessary stack traces coming from the testing framework itself as well
+ * as possible repetition.
+ *
+ * @see https://github.com/karma-runner/karma-jasmine/issues/60
+ * @param {Object} step Step object with stack and message properties.
+ * @returns {string}  Formatted step.
+ */
+function formatFailedStep (step) {
+  // Safari seems to have no stack trace,
+  // so we just return the error message:
+  if (!step.stack) { return step.message }
+
+  let relevantMessage = []
+  let relevantStack = []
+
+  // Remove the message prior to processing the stack to prevent issues like
+  // https://github.com/karma-runner/karma-jasmine/issues/79
+  const stack = step.stack.replace('Error: ' + step.message, '')
+
+  const dirtyRelevantStack = getRelevantStackFrom(stack)
+
+  // PhantomJS returns multiline error message for errors coming from specs
+  // (for example when calling a non-existing function). This error is present
+  // in both `step.message` and `step.stack` at the same time, but stack seems
+  // preferable, so we iterate relevant stack, compare it to message:
+  for (let i = 0; i < dirtyRelevantStack.length; i += 1) {
+    if (typeof step.message === 'string' && step.message.indexOf(dirtyRelevantStack[i]) === -1) {
+      // Stack entry is not in the message,
+      // we consider it to be a relevant stack:
+      relevantStack.push(dirtyRelevantStack[i])
+    } else {
+      // Stack entry is already in the message,
+      // we consider it to be a suitable message alternative:
+      relevantMessage.push(dirtyRelevantStack[i])
+    }
+  }
+
+  // In most cases the above will leave us with an empty message...
+  if (relevantMessage.length === 0) {
+    // Let's reuse the original message:
+    relevantMessage.push(step.message)
+
+    // Now we probably have a repetition case where:
+    // relevantMessage: ["Expected true to be false."]
+    // relevantStack: ["Error: Expected true to be false.", ...]
+    if (relevantStack.length && relevantStack[0].indexOf(step.message) !== -1) {
+      // The message seems preferable, so we remove the first value from
+      // the stack to get rid of repetition:
+      relevantStack.shift()
+    }
+  }
+
+  // Example output:
+  // ---------------------
+  // Chrome 40.0.2214 (Mac OS X 10.9.5) xxx should return false 1 FAILED
+  //    Expected true to be false
+  //    at /foo/bar/baz.spec.js:22:13
+  //    at /foo/bar/baz.js:18:29
+  return relevantMessage.concat(relevantStack).join('\n')
+}
