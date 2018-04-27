@@ -1,1 +1,1 @@
-# clone-karma-runner-karma-jasmine
+Clone [karma-runner/karma-jasmine: A Karma plugin - adapter for Jasmine testing framework.](https://github.com/karma-runner/karma-jasmine) for study.
