@@ -151,3 +151,15 @@ function getAllSpecNames (topSuite) {
 
   return specNames
 }
+
+/**
+ * Very simple reporter for Jasmine.
+ */
+function KarmaReporter (tc, jasmineEnv) {
+  let currentSuite = new SuiteNode()
+
+  // Save link on native Date object
+  // because user can mock it
+  const _Date = Date
+  const startTimeCurrentSpec = new _Date().getTime()
+}
