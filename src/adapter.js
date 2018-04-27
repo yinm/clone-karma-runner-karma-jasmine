@@ -192,4 +192,16 @@ function KarmaReporter (tc, jasmineEnv) {
       specs: getAllSpecNames(jasmineEnv.topSuite())
     })
   }
+
+  this.jasmineDone = function (result) {
+    result = result || {}
+
+    // Any errors in top-level afterAll blocks are given here.
+    handleGlobalErrors(result)
+
+    tc.complete({
+      order: result.order,
+      coverage: window.__coverage__
+    })
+  }
 }
