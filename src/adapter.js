@@ -273,3 +273,15 @@ const getGrepOption = (clientArguments) => {
   }
 }
 
+/**
+ * Create Jasmine spec filter
+ * @param {Object} options Spec filter options
+ */
+const KarmaSpecFilter = function (options) {
+  const filterString = options && options.filterString() && options.filterString().replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+  const filterPattern = new RegExp(filterString)
+
+  this.matches = function (specName) {
+    return filterPattern.test(specName)
+  }
+}
