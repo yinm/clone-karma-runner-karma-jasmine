@@ -174,4 +174,22 @@ function KarmaReporter (tc, jasmineEnv) {
       tc.error(message)
     }
   }
+
+  /**
+   * Jasmine 2.0 dispatches the following events:
+   *
+   * - jasmineStarted
+   * - jasmineDone
+   * - suiteStarted
+   * - suiteDone
+   * - specStarted
+   * - specDone
+   */
+
+  this.jasmineStarted = function (data) {
+    tc.info({
+      total: data.totalSpecsDefined,
+      specs: getAllSpecNames(jasmineEnv.topSuite())
+    })
+  }
 }
