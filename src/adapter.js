@@ -112,3 +112,15 @@ function formatFailedStep (step) {
   //    at /foo/bar/baz.js:18:29
   return relevantMessage.concat(relevantStack).join('\n')
 }
+
+function SuiteNode (name, parent) {
+  this.name = name
+  this.parent = parent
+  this.children = []
+
+  this.addChild = function (name) {
+    const suite = new SuiteNode(name, this)
+    this.children.push(suite)
+    return suite
+  }
+}
