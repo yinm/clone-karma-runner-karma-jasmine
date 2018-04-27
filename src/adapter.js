@@ -124,3 +124,22 @@ function SuiteNode (name, parent) {
     return suite
   }
 }
+
+function processSuite (suite, pointer) {
+  let child
+  let childPointer
+
+  for (let i = 0; i < suite.children.length; i++) {
+    child = suite.children[i]
+
+    if (child.children) {
+      childPointer = pointer[child.description] = {_: []}
+      processSuite(child, childPointer)
+    } else {
+      if (!pointer._) {
+        pointer._ = []
+      }
+      pointer._.push(child.description)
+    }
+  }
+}
