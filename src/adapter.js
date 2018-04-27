@@ -143,3 +143,11 @@ function processSuite (suite, pointer) {
     }
   }
 }
+
+function getAllSpecNames (topSuite) {
+  let specNames = {}
+
+  processSuite(topSuite, specNames)
+
+  return specNames
+}
