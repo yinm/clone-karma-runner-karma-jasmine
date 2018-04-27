@@ -162,4 +162,16 @@ function KarmaReporter (tc, jasmineEnv) {
   // because user can mock it
   const _Date = Date
   const startTimeCurrentSpec = new _Date().getTime()
+
+  function handleGlobalErrors (result) {
+    if (result.failedExpectations && result.failedExpectations.length) {
+      let message = 'An error was thrown in afterAll'
+      const steps = result.failedExpectations
+      for (let i = 0, l = steps.length; i < l; i++) {
+        message += '\n' + formatFailedStep(steps[i])
+      }
+
+      tc.error(message)
+    }
+  }
 }
