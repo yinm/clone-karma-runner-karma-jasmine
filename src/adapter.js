@@ -208,4 +208,39 @@ function KarmaReporter (tc, jasmineEnv) {
   this.specStarted = function () {
     startTimeCurrentSpec = new _Date().getTime()
   }
+
+  this.specDone = function (specResult) {
+    const skipped = specResult.status === 'disabled' || specResult.status === 'pending' || specResult.status === 'excluded'
+
+    const result = {
+      fullName: specResult.fullName,
+      description: specResult.description,
+      id: specResult.id,
+      log: [],
+      skipped: skipped,
+      disabled: specResult.status === 'disabled' || specResult.status === 'excluded',
+      pending: specResult.status === 'pending',
+      success: specResult.failedExpectations.length === 0,
+      suite: [],
+      time: skipped ? 0 : new _Date().getTime() - startTimeCurrentSpec,
+      executedExceptionsCount: specResult.failedExpectations.length + specResult.passedExpectations.length,
+    }
+
+    // generate ordered list of (nested) suite names
+    let suitePointer = currentSuite
+    while (suitePointer.parent) {
+      result.suite.unshift(suitePointer.name)
+      suitePointer = suitePointer.parent
+    }
+
+    if (!result.success) {
+      const steps = specResult.failedExpectations
+      for (let i = 0, l = steps.length; i < l; i++) {
+        result.log.push(formatFailedStep(steps[i]))
+      }
+    }
+
+    tc.result(result)
+    delete specResult.startTime
+  }
 }
