@@ -438,5 +438,9 @@ describe('jasmine adapter', () => {
     it('should return false for empty strings', () => {
       expect(isExternalStackEntry('')).toBe(false)
     })
+
+    it('should return false for strings with "jasmine-core"', () => {
+      expect(isExternalStackEntry('/foo/jasmine-core/bar.js')).toBe(false)
+    })
   })
 })
