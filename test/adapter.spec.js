@@ -421,6 +421,13 @@ describe('jasmine adapter', () => {
       }).not.toThrowError()
     })
 
+    it('should not fail if client does not set config', () => {
+      tc.config = null
+
+      expect(() => {
+        createStartFn(tc, jasmineEnv)()
+      }).not.toThrowError()
+    })
   })
 
 })
