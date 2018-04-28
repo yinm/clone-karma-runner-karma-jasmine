@@ -158,5 +158,22 @@ describe('jasmine adapter', () => {
       expect(karma.result).toHaveBeenCalled()
     })
 
+    it('should report errors in afterAll blocks', () => {
+      spyOn(karma, 'complete')
+      spyOn(karma, 'error')
+
+      const result = {
+        failedExpectations: [],
+      }
+
+      reporter.jasmineDone(result)
+      expect(karma.error).not.toHaveBeenCalled()
+
+      result.failedExpectations.push({})
+
+      reporter.jasmineDone(result)
+      expect(karma.error).toHaveBeenCalled()
+    })
+
   })
 })
