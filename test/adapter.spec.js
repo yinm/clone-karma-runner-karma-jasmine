@@ -386,6 +386,15 @@ describe('jasmine adapter', () => {
       expect(jasmineEnv.seed).toHaveBeenCalledWith(seed)
     })
 
+    it('should set stopOnFailure', () => {
+      jasmineConfig.stopOnFailure = true
+      spyOn(jasmineEnv, 'throwOnExpectationFailure')
+
+      createStartFn(tc, jasmineEnv)()
+
+      expect(jasmineEnv.throwOnExpectationFailure).toHaveBeenCalledWith(true)
+    })
+
   })
 
 })
