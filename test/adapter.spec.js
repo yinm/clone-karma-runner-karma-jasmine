@@ -450,5 +450,9 @@ describe('jasmine adapter', () => {
     it('should return false for strings with "karma.js"', () => {
       expect(isExternalStackEntry('/foo/karma.js:183')).toBe(false)
     })
+
+    it('should return false for strings with "context.html"', () => {
+      expect(isExternalStackEntry('/foo/context.html:13"')).toBe(false)
+    })
   })
 })
