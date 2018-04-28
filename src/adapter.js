@@ -209,6 +209,20 @@ function KarmaReporter (tc, jasmineEnv) {
     currentSuite = currentSuite.addChild(result.description)
   }
 
+  this.suiteDone = function (result) {
+    // In the case of xdescribe, only "suiteDone" is fired.
+    // We need to skip that.
+    if (result.description !== currentSuite.name) {
+      return
+    }
+
+    // Any errors in afterAll blocks are given here, except for top-level
+    // afterAll blocks.
+    handleGlobalErrors(result)
+
+    currentSuite = currentSuite.parent
+  }
+
   this.specStarted = function () {
     startTimeCurrentSpec = new _Date().getTime()
   }
