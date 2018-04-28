@@ -412,6 +412,15 @@ describe('jasmine adapter', () => {
       expect(jasmineEnv.randomizeTests).not.toHaveBeenCalled()
     })
 
+    it('should not fail with failFast if the jasmineEnv does not support it', () => {
+      jasmineConfig.failFast = true
+      jasmineEnv.stopOnSpecFailure = null
+
+      expect(() => {
+        createStartFn(tc, jasmineEnv)()
+      }).not.toThrowError()
+    })
+
   })
 
 })
