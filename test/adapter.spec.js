@@ -516,6 +516,10 @@ describe('jasmine adapter', () => {
       expect(specFilter).toBeDefined()
     })
 
+    it('should filter spec by name', () => {
+      expect(specFilter.matches('bar')).toEqual(false)
+      expect(specFilter.matches('test')).toEqual(true)
+    })
   })
 
 })
