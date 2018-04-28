@@ -348,4 +348,33 @@ describe('jasmine adapter', () => {
     })
   })
 
+  describe('startFn', () => {
+    let tc
+    let jasmineEnv
+    let jasmineConfig
+
+    beforeEach(() => {
+      jasmineConfig = {}
+
+      tc = new Karma(new MockSocket(), {}, null, null, {search: ''})
+      tc.config = {jasmine: jasmineConfig}
+
+      spyOn(tc, 'info')
+      spyOn(tc, 'complete')
+      spyOn(tc, 'result')
+
+      jasmineEnv = new jasmine.Env()
+    })
+
+    it('should set random order', () => {
+      jasmineConfig.random = true
+      spyOn(jasmineEnv, 'randomizeTests')
+
+      createStartFn(tc, jasmineEnv)()
+
+      expect(jasmineEnv.randomizeTests).toHaveBeenCalledWith(true)
+    })
+
+  })
+
 })
