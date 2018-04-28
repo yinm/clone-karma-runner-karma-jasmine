@@ -475,6 +475,12 @@ describe('jasmine adapter', () => {
       expect(getRelevantStackFrom('a\nb\nc')).toEqual(['a', 'b', 'c'])
     })
 
+    it('should return only the relevant stack entries if the stack contains relevant entries', () => {
+      spyOn(window, 'isExternalStackEntry').and.callFake((entry) => {
+        return entry !== 'b'
+      })
+      expect(getRelevantStackFrom('a\nb\nc')).toEqual(['a', 'c'])
+    })
   })
 
 })
