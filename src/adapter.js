@@ -369,3 +369,18 @@ function filter (collection, filter, that /* opt*/) {
 
   return other
 }
+
+function map (collection, mapper, that /* opt*/) {
+  if (collection.map) {
+    return collection.map(mapper, that)
+  }
+
+  let other = new Array(collection.length)
+  for (let i = 0, n = collection.length; i < n; i++) {
+    if (i in collection) {
+      other[i] = mapper.call(that, collection[i], i, collection)
+    }
+  }
+
+  return other
+}
