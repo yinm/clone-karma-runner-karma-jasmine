@@ -454,5 +454,9 @@ describe('jasmine adapter', () => {
     it('should return false for strings with "context.html"', () => {
       expect(isExternalStackEntry('/foo/context.html:13"')).toBe(false)
     })
+
+    it('should return true for all other strings', () => {
+      expect(isExternalStackEntry('/foo/bar/baz.js:13:1')).toBe(true)
+    })
   })
 })
