@@ -301,3 +301,37 @@ const createSpecFilter = (config, jasmineEnv) => {
     return specFilter.matches(spec.getFullName())
   }
 }
+
+/**
+ * Karma starter function factory.
+ *
+ * This function is invokd from the wrapper.
+ * @see adapter.wrapper
+ *
+ * @param {Object} karma  Karma runner instance.
+ * @param {Object} [jasmineEnv] Optional Jasmine environment for testing.
+ * @returns {function()}  Karma starter function.
+ */
+function createStartFn (karma, jasmineEnv) {
+  // This function will be assigned to `window.__karma__.start`:
+  return () => {
+    const clientConfig = karma.config || {}
+    const jasmineConfig = clientConfig.jasmine || {}
+
+    jasmineEnv = jasmineEnv || window.jasmine.getEnv()
+
+    setOption(jasmineConfig.stopOnFailure, jasmineEnv.throwOnExpectationFailure)
+    setOption(jasmineConfig.failFast, jasmineEnv.stopOnSpecFailure)
+    setOption(jasmineConfig.seed, jasmineEnv.seed)
+    setOption(jasmineConfig.random, jasmineEnv.randomizeTests)
+
+    jasmineEnv.addReporter(new KarmaReporter(karma, jasmineEnv))
+    jasmineEnv.execute()
+  }
+
+  function setOption (option, set) {
+    if (option != null && typeof set === 'function') {
+      set(option)
+    }
+  }
+}
