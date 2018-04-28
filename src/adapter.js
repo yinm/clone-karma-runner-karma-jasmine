@@ -205,6 +205,24 @@ function KarmaReporter (tc, jasmineEnv) {
     })
   }
 
+  this.suiteStarted = function (result) {
+    currentSuite = currentSuite.addChild(result.description)
+  }
+
+  this.suiteDone = function (result) {
+    // In the case of xdescribe, only "suiteDone" is fired.
+    // We need to skip that.
+    if (result.description !== currentSuite.name) {
+      return
+    }
+
+    // Any errors in afterAll blocks are given here, except for top-level
+    // afterAll blocks.
+    handleGlobalErrors(result)
+
+    currentSuite = currentSuite.parent
+  }
+
   this.specStarted = function () {
     startTimeCurrentSpec = new _Date().getTime()
   }
@@ -223,7 +241,7 @@ function KarmaReporter (tc, jasmineEnv) {
       success: specResult.failedExpectations.length === 0,
       suite: [],
       time: skipped ? 0 : new _Date().getTime() - startTimeCurrentSpec,
-      executedExceptionsCount: specResult.failedExpectations.length + specResult.passedExpectations.length,
+      executedExpectationsCount: specResult.failedExpectations.length + specResult.passedExpectations.length,
     }
 
     // generate ordered list of (nested) suite names
