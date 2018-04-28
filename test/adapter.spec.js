@@ -375,6 +375,17 @@ describe('jasmine adapter', () => {
       expect(jasmineEnv.randomizeTests).toHaveBeenCalledWith(true)
     })
 
+    it('should set order seed', () => {
+      const seed = '4321'
+
+      jasmineConfig.seed = seed
+      spyOn(jasmineEnv, 'seed')
+
+      createStartFn(tc, jasmineEnv)()
+
+      expect(jasmineEnv.seed).toHaveBeenCalledWith(seed)
+    })
+
   })
 
 })
