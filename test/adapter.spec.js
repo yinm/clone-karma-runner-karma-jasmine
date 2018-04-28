@@ -15,14 +15,14 @@ describe('jasmine adapter', () => {
   })
 
   describe('KarmaReporter', () => {
-    let repoter, karma, env, parentSuite, suite, spec
+    let reporter, karma, env, parentSuite, suite, spec
 
     beforeEach(() => {
       const jasmine = getJasmineRequireObj().core(jasmineRequire)
       env = jasmine.getEnv()
 
       karma = new Karma(new MockSocket(), null, null, null, {search: ''})
-      repoter = new KarmaReporter(karma, env)
+      reporter = new KarmaReporter(karma, env)
 
       spyOn(karma, 'result')
 
@@ -42,8 +42,8 @@ describe('jasmine adapter', () => {
       spec = new jasmine.Spec({
         id: 'spec0',
         description: 'contains spec with an expectation',
-        queuebleFn: {
-          fn: function() {
+        queueableFn: {
+          fn() {
           }
         },
         getSpecName() {
@@ -80,7 +80,7 @@ describe('jasmine adapter', () => {
         })
       })
 
-      repoter.jasmineStarted({totalSpecDefined: 2})
+      reporter.jasmineStarted({totalSpecsDefined: 2})
     })
 
   })
