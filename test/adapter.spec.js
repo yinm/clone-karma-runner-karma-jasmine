@@ -246,5 +246,23 @@ describe('jasmine adapter', () => {
       expect(karma.result).toHaveBeenCalled()
     })
 
+    it('should report time for every spec', () => {
+      let counter = 3
+
+      spyOn(Date.prototype, 'getTime').and.callFake(() => {
+        counter += 1
+        return counter
+      })
+
+      karma.result.and.callFake((result) => {
+        expect(result.time).toBe(1) // 4 - 3
+      })
+
+      reporter.specStarted(Object.assign({}, spec.result))
+      reporter.specDone(Object.assign({}, spec.result))
+
+      expect(karma.result).toHaveBeenCalled()
+    })
+
   })
 })
