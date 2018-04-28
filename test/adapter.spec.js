@@ -145,5 +145,18 @@ describe('jasmine adapter', () => {
       expect(karma.result).toHaveBeenCalled()
     })
 
+    it('should report fail result', () => {
+      karma.result.and.callFake((result) => {
+        expect(result.success).toBe(false)
+        expect(result.log.length).toBe(1)
+        expect(result.executedExpectationsCount).toBe(1)
+      })
+
+      spec.result.failedExpectations.push({})
+      reporter.specDone(spec.result)
+
+      expect(karma.result).toHaveBeenCalled()
+    })
+
   })
 })
