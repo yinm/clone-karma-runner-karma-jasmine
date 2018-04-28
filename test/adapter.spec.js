@@ -488,6 +488,10 @@ describe('jasmine adapter', () => {
       expect(getGrepOption(['--grep', 'test'])).toEqual('test')
     })
 
+    it('should return empty string if args does not contain grep option', () => {
+      expect(getGrepOption([])).toEqual('')
+    })
+
   })
 
 })
