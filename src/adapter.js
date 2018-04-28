@@ -205,6 +205,10 @@ function KarmaReporter (tc, jasmineEnv) {
     })
   }
 
+  this.suiteStarted = function (result) {
+    currentSuite = currentSuite.addChild(result.description)
+  }
+
   this.specStarted = function () {
     startTimeCurrentSpec = new _Date().getTime()
   }
