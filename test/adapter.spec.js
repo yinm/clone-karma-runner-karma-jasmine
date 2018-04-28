@@ -264,5 +264,23 @@ describe('jasmine adapter', () => {
       expect(karma.result).toHaveBeenCalled()
     })
 
+    it('should report order on complete', () => {
+      const result = {
+        order: {
+          random: true,
+          seed: '4321'
+        }
+      }
+
+      spyOn(karma, 'complete')
+
+      reporter.jasmineDone(result)
+
+      expect(karma.complete).toHaveBeenCalledWith({
+        order: result.order,
+        coverage: undefined
+      })
+    })
+
   })
 })
