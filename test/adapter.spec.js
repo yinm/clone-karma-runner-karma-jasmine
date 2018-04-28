@@ -135,5 +135,15 @@ describe('jasmine adapter', () => {
       expect(karma.result).toHaveBeenCalled()
     })
 
+    it('should report executedExpectCount 0 if no expectations', () => {
+      karma.result.and.callFake((result) => {
+        expect(result.executedExpectationsCount).toBe(0)
+      })
+
+      reporter.specDone(spec.result)
+
+      expect(karma.result).toHaveBeenCalled()
+    })
+
   })
 })
