@@ -446,5 +446,9 @@ describe('jasmine adapter', () => {
     it('should return false for strings with "karma-jasmine"', () => {
       expect(isExternalStackEntry('/foo/karma-jasmine/bar.js')).toBe(false)
     })
+
+    it('should return false for strings with "karma.js"', () => {
+      expect(isExternalStackEntry('/foo/karma.js:183')).toBe(false)
+    })
   })
 })
