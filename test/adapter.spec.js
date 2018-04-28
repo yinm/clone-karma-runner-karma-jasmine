@@ -83,5 +83,21 @@ describe('jasmine adapter', () => {
       reporter.jasmineStarted({totalSpecsDefined: 2})
     })
 
+    it('should report success result', () => {
+      karma.result.and.callFake((result) => {
+        expect(result.id).toBe(spec.id)
+        expect(result.description).toBe('contains spec with an expectation')
+        expect(result.fullName).toBe('A suite contains spec with an expectation')
+        expect(result.suite).toEqual(['Parent Suite', 'Child Suite'])
+        expect(result.success).toBe(true)
+        expect(result.skipped).toBe(false)
+      })
+
+      reporter.suiteStarted(parentSuite.result)
+      reporter.suiteStarted(suite.result)
+      reporter.specDone(spec.result)
+      expect(karma.result).toHaveBeenCalled()
+    })
+
   })
 })
