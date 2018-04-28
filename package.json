@@ -2,7 +2,7 @@
   "name": "clone-karma-runner-karma-jasmine",
   "version": "1.0.0",
   "description": "Clone [karma-runner/karma-jasmine: A Karma plugin - adapter for Jasmine testing framework.](https://github.com/karma-runner/karma-jasmine) for study.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "grunt test"
   },
