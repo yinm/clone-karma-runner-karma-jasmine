@@ -335,3 +335,21 @@ function createStartFn (karma, jasmineEnv) {
     }
   }
 }
+
+function indexOf (collection, find, i /* opt*/) {
+  if (collection.indexOf) {
+    return collection.indexOf(find, i)
+  }
+
+  if (i === undefined) { i = 0 }
+  if (i < 0) { i += collection.length }
+  if (i < 0) { i = 0 }
+
+  for (let n = collection.length; i < n; i++) {
+    if (i in collection && collection[i] === find) {
+      return i
+    }
+  }
+
+  return -1
+}
