@@ -459,4 +459,11 @@ describe('jasmine adapter', () => {
       expect(isExternalStackEntry('/foo/bar/baz.js:13:1')).toBe(true)
     })
   })
+
+  describe('getRelevantStackForm', () => {
+    it('should be a function', () => {
+      expect(typeof getRelevantStackFrom).toBe('function')
+    })
+  })
+
 })
