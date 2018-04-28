@@ -123,5 +123,17 @@ describe('jasmine adapter', () => {
       expect(karma.result).toHaveBeenCalled()
     })
 
+    it('should report pending status', () => {
+      spec.result.status = 'pending'
+
+      karma.result.and.callFake((result) => {
+        expect(result.skipped).toBe(true)
+        expect(result.pending).toBe(true)
+      })
+
+      reporter.specDone(spec.result)
+      expect(karma.result).toHaveBeenCalled()
+    })
+
   })
 })
