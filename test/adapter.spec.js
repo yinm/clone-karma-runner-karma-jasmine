@@ -175,5 +175,18 @@ describe('jasmine adapter', () => {
       expect(karma.error).toHaveBeenCalled()
     })
 
+    it('should report executedExpectCount as sum of passed and failed expectations', () => {
+      karma.result.and.callFake((result) => {
+        expect(result.executedExpectationsCount).toBe(2)
+      })
+
+      spec.result.passedExpectations.push({})
+      spec.result.failedExpectations.push({})
+
+      reporter.specDone(spec.result)
+
+      expect(karma.result).toHaveBeenCalled()
+    })
+
   })
 })
