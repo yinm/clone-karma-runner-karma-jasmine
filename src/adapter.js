@@ -353,3 +353,19 @@ function indexOf (collection, find, i /* opt*/) {
 
   return -1
 }
+
+function filter (collection, filter, that /* opt*/) {
+  if (collection.filter) {
+    return collection.filter(filter, that)
+  }
+
+  let other = []
+  let v
+  for (let i = 0, n = collection.length; i < n; i++) {
+    if (i in collection && filter.call(that, v = collection[i], i, collection)) {
+      other.push(v)
+    }
+  }
+
+  return other
+}
