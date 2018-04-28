@@ -311,4 +311,18 @@ describe('jasmine adapter', () => {
     })
   })
 
+  describe('formatFailedStep', () => {
+    it('should prepend the stack with message if browser does not', () => {
+      // FF does not have the message in the stack trace
+
+      const step = {
+        passed: false,
+        message: 'Jasmine fail message',
+        stack: '@file.js:123\n'
+      }
+
+      expect(formatFailedStep(step)).toMatch(/^Jasmine fail message/)
+    })
+  })
+
 })
