@@ -282,5 +282,16 @@ describe('jasmine adapter', () => {
       })
     })
 
+    it('should not fail if result is undefined', () => {
+      spyOn(karma, 'complete')
+
+      reporter.jasmineDone()
+
+      expect(karma.complete).toHaveBeenCalledWith({
+        order: undefined,
+        coverage: undefined
+      })
+    })
+
   })
 })
