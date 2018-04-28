@@ -501,4 +501,21 @@ describe('jasmine adapter', () => {
     })
   })
 
+  describe('KarmaSpecFilter', () => {
+    let specFilter
+
+    beforeEach(() => {
+      specFilter = new KarmaSpecFilter({
+        filterString() {
+          return 'test'
+        }
+      })
+    })
+
+    it('should create spec filter', () => {
+      expect(specFilter).toBeDefined()
+    })
+
+  })
+
 })
