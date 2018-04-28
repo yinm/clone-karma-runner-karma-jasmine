@@ -483,4 +483,11 @@ describe('jasmine adapter', () => {
     })
   })
 
+  describe('getGrepOption', () => {
+    it('should get grep option from config if args is array', () => {
+      expect(getGrepOption(['--grep', 'test'])).toEqual('test')
+    })
+
+  })
+
 })
