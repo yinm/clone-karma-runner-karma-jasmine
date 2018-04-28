@@ -430,4 +430,9 @@ describe('jasmine adapter', () => {
     })
   })
 
+  describe('isExternalStackEntry', () => {
+    it('should be a function', () => {
+      expect(typeof isExternalStackEntry).toBe('function')
+    })
+  })
 })
