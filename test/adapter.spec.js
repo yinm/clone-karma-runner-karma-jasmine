@@ -323,17 +323,29 @@ describe('jasmine adapter', () => {
 
       expect(formatFailedStep(step)).toMatch(/^Jasmine fail message/)
     })
-  })
 
-  it('should report message if no stack trace', () => {
-    // Safari does not have trace
+    it('should report message if no stack trace', () => {
+      // Safari does not have trace
 
-    const step = {
-      passed: false,
-      message: 'MESSAGE',
-    }
+      const step = {
+        passed: false,
+        message: 'MESSAGE',
+      }
 
-    expect(formatFailedStep(step)).toBe('MESSAGE')
+      expect(formatFailedStep(step)).toBe('MESSAGE')
+    })
+
+    it('should properly format message containing new-line characters', () => {
+      // FF does not have the message in the stack trace
+
+      const step = {
+        passed: false,
+        message: 'Jasmine fail\nmessage',
+        stack: 'Error: Jasmine fail\nmessage\n@file.js:123',
+      }
+
+      expect(formatFailedStep(step)).toMatch('Jasmine fail\nmessage\n@file.js:123')
+    })
   })
 
 })
