@@ -522,4 +522,19 @@ describe('jasmine adapter', () => {
     })
   })
 
+  describe('createSpecFilter', () => {
+    it('should create spec filter in Jasmine', () => {
+      const jasmineEnvMock = {}
+      const karmaConfMock = {
+        args: ['--grep', 'test']
+      }
+      const specMock = {
+        getFullName: jasmine.createSpy('getFullName').and.returnValue('test')
+      }
+
+      createSpecFilter(karmaConfMock, jasmineEnvMock)
+
+      expect(jasmineEnvMock.specFilter(specMock)).toEqual(true)
+    })
+  })
 })
