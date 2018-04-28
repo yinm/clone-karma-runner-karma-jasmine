@@ -395,6 +395,15 @@ describe('jasmine adapter', () => {
       expect(jasmineEnv.throwOnExpectationFailure).toHaveBeenCalledWith(true)
     })
 
+    it('should set failFast', () => {
+      jasmineConfig.failFast = true
+      spyOn(jasmineEnv, 'stopOnSpecFailure')
+
+      createStartFn(tc, jasmineEnv)()
+
+      expect(jasmineEnv.stopOnSpecFailure).toHaveBeenCalledWith(true)
+    })
+
   })
 
 })
