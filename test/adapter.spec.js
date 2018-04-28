@@ -434,5 +434,9 @@ describe('jasmine adapter', () => {
     it('should be a function', () => {
       expect(typeof isExternalStackEntry).toBe('function')
     })
+
+    it('should return false for empty strings', () => {
+      expect(isExternalStackEntry('')).toBe(false)
+    })
   })
 })
