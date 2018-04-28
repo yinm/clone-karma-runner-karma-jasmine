@@ -216,5 +216,35 @@ describe('jasmine adapter', () => {
       expect(karma.result).toHaveBeenCalled()
     })
 
+    it('should not remove jasmine-specific frames from the exception stack traces if the trace contains no non-jasmine specific frames', () => {
+      let step = {}
+
+      step.message = 'Expected true to be false.'
+      step.stack = 'Error: Expected true to be false.\n' +
+        '    at stack (/foo/bar/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1441:17)\n' +
+        '    at buildExpectationResult (/foo/bar/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1411:14)\n' +
+        '    at Spec.Env.expectationResultFactory (/foo/bar/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:533:18)\n' +
+        '    at Spec.addExpectationResult (/foo/bar/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:293:34)\n' +
+        '    at Expectation.addExpectationResult (/foo/bar/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:477:21)\n' +
+        '    at Expectation.toBe (/foo/bar/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1365:12)\n'
+
+      karma.result.and.callFake((result) => {
+        expect(result.log).toEqual([
+          'Expected true to be false.\n' +
+          '    at stack (/foo/bar/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1441:17)\n' +
+          '    at buildExpectationResult (/foo/bar/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1411:14)\n' +
+          '    at Spec.Env.expectationResultFactory (/foo/bar/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:533:18)\n' +
+          '    at Spec.addExpectationResult (/foo/bar/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:293:34)\n' +
+          '    at Expectation.addExpectationResult (/foo/bar/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:477:21)\n' +
+          '    at Expectation.toBe (/foo/bar/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1365:12)'
+        ])
+      })
+
+      spec.result.failedExpectations.push(step)
+      reporter.specDone(spec.result)
+
+      expect(karma.result).toHaveBeenCalled()
+    })
+
   })
 })
