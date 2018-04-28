@@ -496,6 +496,9 @@ describe('jasmine adapter', () => {
       expect(getGrepOption('--grep=test')).toEqual('test')
     })
 
+    it('should get grep option from args if second arg', () => {
+      expect(getGrepOption(['--arg1', 'value1', '--grep', 'grepValue'])).toEqual('grepValue')
+    })
   })
 
 })
