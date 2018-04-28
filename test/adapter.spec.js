@@ -325,4 +325,15 @@ describe('jasmine adapter', () => {
     })
   })
 
+  it('should report message if no stack trace', () => {
+    // Safari does not have trace
+
+    const step = {
+      passed: false,
+      message: 'MESSAGE',
+    }
+
+    expect(formatFailedStep(step)).toBe('MESSAGE')
+  })
+
 })
