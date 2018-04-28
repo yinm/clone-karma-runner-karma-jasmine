@@ -285,3 +285,19 @@ const KarmaSpecFilter = function (options) {
     return filterPattern.test(specName)
   }
 }
+
+/**
+ * @param {Object} config The karma config
+ * @param {Object} jasmineEnv Jasmine environment object
+ */
+const createSpecFilter = (config, jasmineEnv) => {
+  const specFilter = new KarmaSpecFilter({
+    filterString() {
+      return getGrepOption(config.args)
+    }
+  })
+
+  jasmineEnv.specFilter = (spec) => {
+    return specFilter.matches(spec.getFullName())
+  }
+}
