@@ -404,6 +404,14 @@ describe('jasmine adapter', () => {
       expect(jasmineEnv.stopOnSpecFailure).toHaveBeenCalledWith(true)
     })
 
+    it('should not set random order if client does not pass it', () => {
+      spyOn(jasmineEnv, 'randomizeTests')
+
+      createStartFn(tc, jasmineEnv)()
+
+      expect(jasmineEnv.randomizeTests).not.toHaveBeenCalled()
+    })
+
   })
 
 })
